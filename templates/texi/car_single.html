@@ -1,0 +1,377 @@
+{% extends 'base.html' %}
+
+{% block pageheader %}
+<div class="page-header position-relative">
+	<h1>
+	车辆详细信息
+	<small>
+	<i class="icon-double-angle-right"></i>
+	{{ car.cheph }}
+	</small>
+	</h1>
+</div>
+{% endblock %}
+
+
+{% block main %}
+
+<div class="tabbable">
+	<ul class="nav nav-tabs" id="myTab">
+		<li class="active">
+			<a data-toggle="tab" href="#home">
+				<i class="green icon-home bigger-110"></i>
+					车辆详细信息
+			</a>
+		</li>
+
+		<li class="">
+			<a data-toggle="tab" href="#profile">
+				<i class="green icon-camera bigger-110"></i>
+					照片信息
+			</a>
+		</li>
+	</ul>
+
+	<div class="tab-content">
+		<div id="home" class="tab-pane active">
+			<div class="row-fluid">
+				<p>
+
+					<a href="/car/edit/{{ car.id }}" class="btn btn-primary btn-mini">
+						<i class="icon-edit"></i>
+							修改
+					</a>
+					<a href="/deletecar/{{ car.id }}" class="btn btn-danger btn-mini">
+						<i class="icon-trash"></i>
+							删除
+					</a>
+
+					<button class="btn btn-light btn-mini">
+						<i class="icon-print"></i>
+							打印
+					</button>
+
+				</p>
+				
+				<div class="row-fluid">
+					<div class="span9">
+						<div class="widget-main no-padding">
+							<table class="table table-bordered table-striped">
+								<tbody>
+									<tr>
+										<td>车主姓名/单位</td>
+										<td>
+											<b class="red">{{ car.chezxm }}</b>
+										</td>
+
+										<td>车主电话</td>
+										<td>
+											<b class="red">{{ car.dianh }}</b>
+										</td>
+									</tr>
+									<tr>
+										<td>身份证号</td>
+										<td>
+											<b class="green">{{ car.shenfzh }}</b>
+										</td>
+
+														<td>地址</td>
+														<td>
+															<b class="green">{{ car.diz }}</b>
+														</td>
+													</tr>
+													<tr>
+														<td>承包人</td>
+														<td>
+															<b class="red">{{ car.chengbr }}</b>
+														</td>
+
+														<td>承包人电话</td>
+														<td>
+															<b class="red">{{ car.chengbrdh }}</b>
+														</td>
+													</tr>
+													<tr>
+														<td>合格证</td>
+														<td>
+															<b class="green">{{ car.hegz }}</b>
+														</td>
+
+														<td>建档日期</td>
+														<td>
+															<b class="green">{{ car.jiandrq }}</b>
+														</td>
+													</tr>
+													<tr>
+														<td>发证日期</td>
+														<td>
+															<b class="green">{{ car.fazrq }}</b>
+														</td>
+													
+														<td>经营类别</td>
+														<td>
+															<b class="red">{{ car.jingylb }}</b>
+														</td>
+													</tr>
+													<tr>
+
+														<td>车辆型号</td>
+														<td>
+															<b class="red">{{ car.chelxh }}</b>
+														</td>
+					
+														<td>车身颜色</td>
+														<td>
+															<b class="red">{{ car.chesys }}</b>
+														</td>
+													</tr>
+													<tr>
+
+														<td>燃油类别</td>
+														<td>
+															<b class="green">{{ car.ranylb }}</b>
+														</td>
+													
+														<td>发动机号</td>
+														<td>
+															<b class="red">{{ car.fadjh }}</b>
+														</td>
+													</tr>
+													<tr>
+														<td>车架号</td>
+														<td>
+															<b class="red">{{ car.chejh }}</b>
+														</td>
+													
+														<td>营运证号</td>
+														<td>
+															<b class="red">{{ car.yingyzh }}</b>
+														</td>
+													</tr>
+													<tr>
+														<td>营运证发证日期</td>
+														<td>
+															<b class="green">{{ car.yingyzfzrq }}</b>
+														</td>
+													
+														<td>计价器号</td>
+														<td>
+															<b class="green">{{ car.jijqh }}</b>
+														</td>
+													</tr>
+													<tr>
+
+														<td>吨(座)位</td>
+														<td>
+															<b class="green">{{ car.zuow }}</b>
+														</td>
+													
+														<td>车辆附加费号码</td>
+														<td>
+															<b class="green">{{ car.chelfjfhm }}</b>
+														</td>
+													</tr>
+													<tr>
+
+														<td>机动车登记证书号</td>
+														<td>
+															<b class="green">{{ car.jidcdjzsh }}</b>
+														</td>
+													
+														<td>经营许可证号码</td>
+														<td>
+															<b class="blue">{{ car.jingyxkzhm }}</b>
+														</td>
+													</tr>
+													<tr>
+														<td>经营许可证有效期</td>
+														<td><b class="green">{{ car.jingyxkzyxq }}</b></td>
+													
+														<td>税务登记证号码</td>
+														<td>
+															<b class="green">{{ car.shuiwdjzhm }}</b>
+														</td>
+													</tr>
+													<tr>
+														<td>税务登记证有效期</td>
+														<td><b class="green">{{ car.shuiwdjzyxq }}</b></td>
+													
+														<td>营业执照号码</td>
+														<td>
+															<b class="green">{{ car.yingyzzhm }}</b>
+														</td>
+													</tr>
+													<tr>
+														<td>营业执照有效期</td>
+														<td><b class="green">{{ car.yingyzzyxq }}</b></td>
+													
+														<td>车辆技术档案号</td>
+														<td>
+															<b class="green">{{ car.cheljsdah }}</b>
+														</td>
+													</tr>
+													<tr>
+														<td>购车发票</td>
+														<td><b class="green">{{ car.goucfp }}</b></td>
+													
+														<td>经营截止日期</td>
+														<td>
+															<b class="green">{{ car.jingyjzrq }}</b>
+														</td>
+													</tr>
+													<tr>
+														<td>GPS装机时间</td>
+														<td><b class="green">{{ car.gpszjsj }}</b></td>
+													
+														<td>GPS号码</td>
+														<td>
+															<b class="green">{{ car.gpshm }}</b>
+														</td>
+													</tr>
+													<tr>
+														<td>GPS密码</td>
+														<td><b class="green">{{ car.gpsmm }}</b></td>
+													
+														<td>市有偿发票</td>
+														<td>
+															<b class="green">{{ car.shiycfp }}</b>
+														</td>
+													</tr>
+													<tr>
+														<td>市开票日期</td>
+														<td><b class="green">{{ car.shikprq }}</b></td>
+													
+														<td>市有偿使用费</td>
+														<td>
+															<b class="green">{{ car.shiycsyf }}</b>
+														</td>
+													</tr>
+													<tr>
+														<td>区有偿发票</td>
+														<td><b class="green">{{ car.quycfp }}</b></td>
+													
+														<td>区开票日期</td>
+														<td>
+															<b class="green">{{ car.quycsyf }}</b>
+														</td>
+													</tr>
+													<tr>
+														<td>区有偿使用费</td>
+														<td><b class="green">{{ car.quycsyf }}</b></td>
+													
+														<td>运营状态</td>
+														<td>
+															<b class="green">{{ car.yunyzt }}</b>
+														</td>
+													</tr>
+													<tr>
+														<td>驾驶员</td>
+														<td><b class="green">
+															{% for driver in car.driver_set.all %}
+                        										<a href="/driver/single/{{ driver.id }}" target="_blank">{{ driver.jiasyxm }}</a><br>
+                    										{% endfor %}
+														</b></td>
+														<td></td>
+														<td><b class="green"></b></td>
+													</tr>
+													<tr>
+														<td>备注</td>
+														<td>
+															<b class="green">{{ car.beiz }}</b>
+														</td>
+														<td></td>
+														<td><b class="green"></b></td>
+													</tr>
+
+												</tbody>
+											</table>
+										</div>
+
+							</div>
+
+							<div class="vspace"></div>
+
+							<div class="span3">
+								{% if car.zhaop %}
+									<img src="{{ car.zhaop.url }}" style="width:300px; height: 200px;">
+								{% else %}
+									<img src="/static/img/sd.jpg">
+								{% endif %}
+							</div>
+
+						</div>
+
+
+
+
+						</div>
+										</div>
+
+
+
+										<div id="profile" class="tab-pane">
+											
+
+					<div class="row-fluid">
+						<!--PAGE CONTENT BEGINS HERE-->
+
+						<div class="row-fluid">
+							<ul class="ace-thumbnails">
+	
+								{% if car.zhaop %}
+								<li>
+									<a href="{{ car.zhaop.url }}" data-rel="colorbox" class="cboxElement">
+										<img alt="150x100" src="{{ car.zhaop.url }}">
+									</a>
+								</li>
+								{% else %}
+									<div class="text-warning orange">
+										<i class="icon-warning-sign"></i>
+											暂无照片， 请上传!
+									</div>
+								{% endif %}
+
+								{% if car.xingszsm %}
+								<li>
+									<a href="{{ car.xingszsm.url }}" data-rel="colorbox" class="cboxElement">
+										<img alt="150x100" src="{{ car.xingszsm.url }}">
+									</a>
+								</li>
+								{% else %}
+									<div class="text-warning orange">
+										<i class="icon-warning-sign"></i>
+											暂无行驶证扫描, 请上传!
+									</div>
+								{% endif %}
+
+
+								{% if car.yingyzsm %}
+								<li>
+									<a href="{{ car.yingyzsm.url }}" data-rel="colorbox" class="cboxElement">
+										<img alt="150x100" src="{{ car.yingyzsm.url }}">
+									</a>
+								</li>
+								{% else %}
+									<div class="text-warning orange">
+										<i class="icon-warning-sign"></i>
+											暂无营运证扫描, 请上传!
+									</div>
+								{% endif %}
+
+							</ul>
+						</div>
+
+						<!--PAGE CONTENT ENDS HERE-->
+					</div><!--/row-->
+				</div>
+
+
+
+										</div>
+
+										
+									</div>
+								</div>
+
+
+{% endblock %}

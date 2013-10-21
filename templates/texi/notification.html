@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block pageheader %}
+<div class="page-header position-relative">
+	<h1>
+	时间提醒设置
+	</h1>
+</div>
+{% endblock %}
+
+{% block main %}
+<form class="form-horizontal" method="post">
+	{% csrf_token %}
+	<div class="row-fluid">
+
+		<div class="span6">
+			<div class="control-group">
+				<label class="control-label" for="form-field-1">经营许可证</label>
+
+				<div class="controls">
+					{{ form.jingyxkz }} 天
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label" for="form-field-2">营业执照</label>
+
+				<div class="controls">
+					{{ form.yingyzz }} 天
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label" for="form-field-3">驾驶员驾驶证</label>
+
+				<div class="controls">
+					{{ form.jiasyjsz }} 天
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label" for="form-field-4">二保日期</label>
+
+				<div class="controls">
+					{{ form.erbrq }} 天
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label" for="form-field-5">服务资格证</label>
+
+				<div class="controls">
+					{{ form.fuwzgz }} 天
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label" for="form-field-6">报停日期</label>
+
+				<div class="controls">
+					{{ form.baotrq }} 天
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label" for="form-field-7">驾驶员合同</label>
+
+				<div class="controls">
+					{{ form.jiasyht }} 天
+				</div>
+			</div>
+		</div>
+
+		<div class="span6">
+			<div class="control-group">
+				<label class="control-label" for="form-field-11">税务登记证</label>
+
+				<div class="controls">
+					{{ form.shuiwdjz }} 天
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label" for="form-field-12">经营截止日期</label>
+
+				<div class="controls">
+					{{ form.jingyjzrq }} 天
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label" for="form-field-13">保险日期</label>
+
+				<div class="controls">
+					{{ form.baoxrq }} 天
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label" for="form-field-14">经营合同</label>
+
+				<div class="controls">
+					{{ form.jingyht }} 天
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label" for="form-field-15">审验日期</label>
+
+				<div class="controls">
+					{{ form.shenyrq }} 天
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label" for="form-field-16">计价器年审</label>
+
+				<div class="controls">
+					{{ form.jijqns }} 天
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label" for="form-field-17">驾驶员社保</label>
+
+				<div class="controls">
+					{{ form.jiasysb }} 天
+				</div>
+			</div>
+		</div>
+
+	</div>
+		
+	<div class="form-actions">
+		<button class="btn btn-info" type="submit">
+			<i class="icon-ok bigger-110"></i>
+				提交
+		</button>
+		&nbsp; &nbsp; &nbsp;
+		<button class="btn" type="reset">
+			<i class="icon-undo bigger-110"></i>
+				重置
+		</button>
+	</div>
+
+</form>
+{% endblock %}

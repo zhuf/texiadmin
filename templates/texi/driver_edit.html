@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+
+{% block pageheader %}
+<div class="page-header position-relative">
+	<h1>
+	驾驶员管理
+	<small>
+	<i class="icon-double-angle-right"></i>
+	修改信息
+	</small>
+	</h1>
+</div>
+{% endblock %}
+
+{% block main %}
+
+
+<form class="form-horizontal" method="post">
+	{% csrf_token %}
+	<div class="row-fluid">
+
+		<div class="span6">
+			<div class="control-group">
+				<label class="control-label">驾驶员姓名(<b class="red">*</b>)</label>
+
+				<div class="controls">
+					{{ form.jiasyxm }}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">文化程度</label>
+
+				<div class="controls">
+					{{ form.wenhcd }}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">身份证号</label>
+
+				<div class="controls">
+					{{ form.shenfzh }}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">户籍所在地</label>
+
+				<div class="controls">
+					{{ form.hujszd }}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">驾驶证号</label>
+
+				<div class="controls">
+					{{ form.jiaszh }}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">初次领证</label>
+
+				<div class="controls">
+					<input type="text"  value="{{form.chuclz.value|date:'Y-m-d'}}" data-datepicker-format="yyyy-mm-dd" name="chuclz" />
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">聘用日期</label>
+				<div class="controls">
+					{{ form.pinyrq }}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">驾驶证有效期</label>
+
+				<div class="controls">
+					{{ form.jiaszyxq }}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">服务资格证号</label>
+
+				<div class="controls">
+					{{ form.fuwzgzh }}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">暂住号</label>
+
+				<div class="controls">
+					{{ form.zanzh }}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">暂住地</label>
+
+				<div class="controls">
+					{{ form.zanzd }}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">存档编号</label>
+
+				<div class="controls">
+					{{ form.cundbh }}
+				</div>
+			</div>
+		</div>
+
+
+
+		<div class="span6">
+			<div class="control-group">
+				<label class="control-label">性别</label>
+
+				<div class="controls">
+					{{ form.xingb }}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">驾驶员状态</label>
+
+				<div class="controls">
+					{{ form.jiasyzt }}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">驾驶员电话</label>
+
+				<div class="controls">
+					{{ form.jiasydh }}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">籍贯</label>
+
+				<div class="controls">
+					{{ form.jig }}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">准驾</label>
+
+				<div class="controls">
+					{{ form.zhunj }}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">驾驶证有效期</label>
+
+				<div class="controls">
+					{{ form.jiaszyxq }}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">审验日期</label>
+
+				<div class="controls">
+					{{ form.shenyrq }}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">信用卡号</label>
+
+				<div class="controls">
+					{{ form.xinykh }}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">政治面貌</label>
+
+				<div class="controls">
+					{{ form.zhengzmm }}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">暂住有效期止</label>
+
+				<div class="controls">
+					{{ form.zanzyxqz }}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">驾驶证所属地</label>
+
+				<div class="controls">
+					{{ form.jiaszssd }}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">备注</label>
+
+				<div class="controls">
+					{{ form.beiz }}
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+		
+	<div class="form-actions">
+		<button class="btn btn-info" type="submit">
+			<i class="icon-ok bigger-110"></i>
+				提交
+		</button>
+		&nbsp; &nbsp; &nbsp;
+		<button class="btn" type="reset">
+			<i class="icon-undo bigger-110"></i>
+				重置
+		</button>
+	</div>
+
+</form>
+
+
+
+
+{% endblock %}
+
+{% block script %}
+
+<script type="text/javascript">
+$("input").datepicker({
+    format: 'mm/dd/yyyy hh:ii:ss',
+    weekStart: 1,
+});
+
+</script>
+</script>
+{% endblock %}

@@ -1,0 +1,263 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+<script>  
+
+function nameFormatter(value, row){
+	return "<a href=/car/single/" + row.id + " >" + row.cheph + "</a>";
+	}
+
+var chelxhtypes = [  
+	{chelxh: '普桑', name: '普桑'},
+	{chelxh: '捷达', name: '捷达'},
+	{chelxh: '捷达汽油', name: '捷达汽油'},
+	{chelxh: '2000型', name: '2000型'},
+	{chelxh: '3000型', name: '3000型'},
+	{chelxh: '现代伊兰特', name: '现代伊兰特'},
+	{chelxh: '帕萨特', name: '帕萨特'},
+	{chelxh: '富美来', name: '富美来'},
+	{chelxh: '志俊', name: '志俊'},
+	{chelxh: '广本雅阁', name: '广本雅阁'},
+	{chelxh: '奇瑞', name: '奇瑞'},
+	{chelxh: '起亚福瑞迪', name: '起亚福瑞迪'},
+	{chelxh: '其他', name: '其他'}
+];  
+
+function chelxhFormatter(value){  
+	for(var i=0; i<chelxhtypes.length; i++){  
+		if (chelxhtypes[i].chelxh == value){
+			return chelxhtypes[i].name; 
+		}  
+	}  
+	return value;  
+} 
+
+var jingylbtypes = [
+	{jingylb: '一类承包', name: '一类承包'},
+	{jingylb: '二类承包', name: '二类承包'},
+	{jingylb: '三类承包', name: '三类承包'},
+	{jingylb: '自主经营', name: '自主经营'},
+	{jingylb: '挂靠', name: '挂靠'}
+];  
+
+function jingylbFormatter(value){  
+	for(var i=0; i<jingylbtypes.length; i++){  
+		if (jingylbtypes[i].jingylb == value){
+			return jingylbtypes[i].name; 
+		}  
+	}  
+	return value;  
+} 
+
+var drivers = [
+	{% for driver in drivers %}
+		{id: {{driver.id}}, name: '{{driver.jiasyxm}}' },
+	{% endfor %}
+
+];
+
+function driversFormatter(driverlist){
+	names = "";
+	for (var v=0; v<driverlist.length; v++){
+		for (var i=0; i<drivers.length; i++){
+			if (drivers[i].id == driverlist[v]){
+				names += "<a href=/driver/single/" + drivers[i].id + " >" + drivers[i].name + "</a><br>";
+			}
+		}
+	}
+	return names;
+}
+
+        $(function(){  
+            var lastIndex;  
+            $('#tt').datagrid({  
+              url: '/getcars',
+                toolbar:[{  
+                    text:'新建',  
+                    iconCls:'icon-add',  
+                    handler:function(){  
+                        $('#tt').datagrid('endEdit', lastIndex);  
+                        $('#tt').datagrid('insertRow',{  
+                            index: 0,
+                            row: {
+                            cheph: '',
+                            chelxh: '',
+                            fadjh: '',
+                            chejh: '',
+                            fazrq: '',
+                            jingyxkzhm: '',
+                            yingyzh: '',
+                            chezxm: '',
+                            dianh: '',
+                            jingylb: '',
+                            drivers: ''
+                        }
+                        });  
+                        lastIndex = 0;  
+                        $('#tt').datagrid('selectRow', lastIndex);  
+                        $('#tt').datagrid('beginEdit', lastIndex);  
+                    }  
+                },'-',{  
+                    text:'删除',  
+                    iconCls:'icon-removes',  
+                    handler:function(){  
+                        var row = $('#tt').datagrid('getSelected');
+                        if ('{{ request.user.is_staff }}' == 'True'){
+                        $.messager.confirm('确认','是否真的删除?', function(r){  
+                            if (r){  
+                                var index = $('#tt').datagrid('getRowIndex', row);  
+                                $('#tt').datagrid('deleteRow', index);
+                                $.get('/deletecar/'+row.id);  
+                                $('#tt').datagrid('reload');
+                            }  
+                        });
+                    }
+                    else {
+                    	$.messager.alert('警告', '你无权限执行操作!', 'info');
+                    }
+                    }  
+                },'-',{  
+                    text:'保存',  
+                    iconCls:'icon-saves',  
+                    handler:function(){  
+  
+                        var row = $('#tt').datagrid('getSelected');
+                        if ('{{ request.user.is_staff }}' == 'True'){
+                        $.messager.confirm('确认','是否修改?', function(r){
+                            if (r){
+                                $('#tt').datagrid('acceptChanges');
+                                $.get('/updatecar?items='+JSON.stringify(row));  
+                                $('#tt').datagrid('reload');
+                            }
+                            else{
+                                $('#tt').datagrid('rejectChanges');
+                            }
+                        });
+                        $('#tt').datagrid('clearSelections');
+                    }
+                    else {
+                    	$.messager.alert('警告', '你无权限执行操作!', 'info');
+                    }
+                    }  
+                    
+                }],  
+                onLoadSuccess:function(){
+                    $('#tt').datagrid('clearSelections');
+                },
+                onBeforeLoad:function(){  
+                    $(this).datagrid('rejectChanges');  
+                },  
+                onClickRow:function(rowIndex){  
+                    if (lastIndex != rowIndex){  
+                        $('#tt').datagrid('endEdit', lastIndex);  
+                        $('#tt').datagrid('beginEdit', rowIndex);  
+                    }  
+                    lastIndex = rowIndex;  
+                }  
+            });  
+        });  
+
+
+    </script>
+
+
+
+{% endblock %}
+
+{% block pageheader %}
+<div class="page-header position-relative">
+	<h1>
+    车辆管理
+	<small>
+	<i class="icon-double-angle-right"></i>
+        车辆信息
+	</small>
+	</h1>
+</div>
+{% endblock %}
+
+{% block main %}
+
+<section>
+<table id="tt" style="width:auto;height:auto"  
+            data-options="iconCls:'icon-edit',singleSelect:true,idField:'id',rownumbers:true,
+                pagination:true, method:'get',
+                pageSize:10" >
+        <thead>
+            <tr>
+                <th data-options="field:'cheph',width:70,align:'center',formatter:nameFormatter,editor:{
+                type:'text', required:'true'}">车牌号码</th>
+                <th data-options="field:'chelxh',width:80,align:'center',formatter:chelxhFormatter,  
+                        editor:{  
+                            type:'combobox',  
+                            options:{  
+                                valueField:'chelxh',  
+                                textField:'name',  
+                                data:chelxhtypes,  
+                                required:true  
+                            }  
+                        }">车辆型号</th>
+                <th data-options="field:'fadjh',width:70,align:'center',editor:'text'">发动机号</th>
+                <th data-options="field:'chejh',width:150,align:'center',editor:'text'">车架号</th>
+                <th data-options="field:'fazrq',width:100,align:'center',editor:'datebox'">发证日期</th>
+                <th data-options="field:'jingyxkzhm',width:100,align:'center',editor:'text'">经营许可证号码</th>
+                <th data-options="field:'yingyzh',width:70,align:'center',editor:'text'">营运证号</th>
+                <th data-options="field:'chezxm',width:100,align:'center',editor:'text'">车主姓名/单位</th>
+                <th data-options="field:'dianh',width:90,align:'center',editor:'text'">车主电话</th>
+                <th data-options="field:'jingylb',width:90,align:'center',formatter:jingylbFormatter,editor:{  
+                            type:'combobox',  
+                            options:{  
+                                valueField:'jingylb',  
+                                textField:'name',  
+                                data:jingylbtypes,  
+                                required:true  
+                            }  
+                        }">经营类别</th>
+                <th data-options="field:'drivers',width:120,align:'center',formatter:driversFormatter">现任驾</th>   
+                
+            </tr>
+        </thead>
+    </table>
+
+    <script>
+
+        function pagerFilter(data){
+            if (typeof data.length == 'number' && typeof data.splice == 'function'){    // is array
+                data = {
+                    total: data.length,
+                    rows: data
+                }
+            }
+            var dg = $(this);
+            var opts = dg.datagrid('options');
+            var pager = dg.datagrid('getPager');
+            pager.pagination({
+                onSelectPage:function(pageNum, pageSize){
+                    opts.pageNumber = pageNum;
+                    opts.pageSize = pageSize;
+                    pager.pagination('refresh',{
+                        pageNumber:pageNum,
+                        pageSize:pageSize
+                    });
+                    dg.datagrid('loadData',data);
+                }
+            });
+            if (!data.originalRows){
+                data.originalRows = (data.rows);
+            }
+            var start = (opts.pageNumber-1)*parseInt(opts.pageSize);
+            var end = start + parseInt(opts.pageSize);
+            data.rows = (data.originalRows.slice(start, end));
+            return data;
+        }
+        
+        $(function(){
+            $('#tt').datagrid({loadFilter:pagerFilter});
+        });
+    </script>
+
+</section>
+
+
+{% endblock %}

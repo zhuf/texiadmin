@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block pageheader %}
+<div class="page-header position-relative">
+    <h1>
+    车辆管理
+    <small>
+    <i class="icon-double-angle-right"></i>
+        车辆信息
+    </small>
+    </h1>
+</div>
+{% endblock %}
+
+{% block main %}
+
+<div class="row-fluid">
+    <p>
+
+        <a class="btn btn-primary btn-mini" href="/car/add">
+            <i class="icon-edit"></i>
+                新增
+        </a>
+
+    </p>
+</div>
+
+<div class="row-fluid">
+
+<script type="text/javascript">
+$(function(){
+    $('tr.parent').click(function(){
+            $(this)
+                .toggleClass("selected")
+                .siblings('.child_'+this.id).toggle();
+    }).click();
+})
+
+function del_car_driver(car, driver)
+{
+    if ('{{ request.user.is_superuser}}' == 'True'){
+        if (confirm('确认解聘?')){
+            var url = '/delcardriver/' + car + '/' + driver;
+            var xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.open('GET', url, true);
+            xmlhttp.send();
+            $('#id_'+car+'_'+driver).hide();
+        }
+    }
+    else{
+        alert('没有权限!');
+    }
+}
+
+</script>
+
+<table id="sample-table-2" class="table table-striped table-bordered table-hover dataTable" aria-describedby="sample-table-2_info">
+    <thead>
+        <tr role="row">
+            <th class="" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" >车牌号</th>
+            <th class="" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" >车主姓名</th>
+            <th class="" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" >车主电话</th>
+            <th class="" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" >车辆型号</th>
+            <th class="" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" >发动机号</th>
+            <th class="" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" >车架号</th>
+            <th class="" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" >营运证号</th>
+            <th class="" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" >发证日期</th>
+            <th class="" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" >经营类别</th>
+        </tr>
+    </thead>
+
+    <tbody role="alert" aria-live="polite" aria-relevant="all">
+
+        {% for car in cars %}
+
+            <tr class="parent" id="row_{{ car.id }}">
+                <td>
+                    <a href="/car/single/{{ car.id }}">{{ car.cheph }}</a>
+                </td>
+                <td>{{ car.chezxm }}</td>
+                <td>{{ car.dianh }}</td>
+                <td>{{ car.chelxh }}</td>
+                <td>{{ car.fadjh }}</td>
+                <td>{{ car.chejh }}</td>
+                <td>{{ car.yingyzh }}</td>
+                <td>{{ car.fazrq }}</td>
+                <td>{{ car.jingylb }}</td>
+
+<!-- 
+                <td>
+                    <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+                        <a class="blue" href="#">
+                            <i class="icon-zoom-in bigger-130"></i>
+                        </a>
+
+                        <a class="green" href="/car/edit/{{ car.id }}">
+                            <i class="icon-pencil bigger-130"></i>
+                        </a>
+
+                    </div>
+                </td> -->
+            </tr>
+            
+
+                    <tr class="child_row_{{ car.id }}">
+                        <td></td>
+                        <td><b class="red">驾驶员姓名</b></td>
+                        <td><b class="red">性别</b></td>
+                        <td><b class="red">准驾</b></td>
+                        <td><b class="red">驾驶证号</b></td>
+                        <td><b class="red">身份证号</b></td>
+                        <td><b class="red">服务资格证号</b></td>
+                        <td><b class="red">有效期</b></td>
+                        <td><b class="red">地址</b></td>
+                        <td><b class="red">电话</b></td>
+                        <td>{% if car.driver_set.all|length < 3 %}<button class="btn btn-minier" onclick="rel_car_driver(1, {{ car.id }})">增加驾驶员</button>{% endif %}</td>
+                    </tr>
+                {% for driver in car.driver_set.all %}
+                    <tr class="child_row_{{ car.id }}" id="id_{{ car.id }}_{{ driver.id }}">    
+                        <td><b class="green">{{ forloop.counter }}</b></td>
+                        <td><b class="green"><a href="/driver/single/{{driver.id}}" target="_blank">{{ driver.jiasyxm }}</a></b></td>
+                        <td><b class="green">{{ driver.xingb }}</b></td>
+                        <td><b class="green">{{ driver.zhunj }}</b></td>
+                        <td><b class="green">{{ driver.jiaszh }}</b></td>
+                        <td><b class="green">{{ driver.shenfzh }}</b></td>
+                        <td><b class="green">{{ driver.fuwzgzh }}</b></td>
+                        <td><b class="green">{{ driver.jiaszyxq }}</b></td>
+                        <td><b class="green">{{ driver.jig }}</b></td>
+                        <td><b class="green">{{ driver.jiasydh }}</b></td>
+                        <td>
+                    <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+                        <a class="blue" onclick="del_car_driver({{ car.id }}, {{ driver.id }})">
+                            解聘
+                        </a>
+
+                    </div>
+                </td>
+                    </tr>
+                {% endfor %}
+
+
+            
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{% endblock %}

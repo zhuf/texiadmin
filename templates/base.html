@@ -1,0 +1,388 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>顺达出租汽车管理系统</title>
+
+		<meta name="description" content="overview &amp; stats" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!--basic styles-->
+		{% load static %}
+		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+		<link href="{% static 'css/bootstrap-responsive.min.css' %}" rel="stylesheet" />
+		<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
+
+		<!--[if lte IE 7]>
+		  <link rel="stylesheet" href="{% static 'css/font-awesome-ie7.min.css' %}" />
+		<![endif]-->
+
+		<!--page specific plugin styles-->
+
+		<!--fonts-->
+<!-- 
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" /> -->
+
+		<!--ace styles-->
+
+		<link rel="stylesheet" href="{% static 'css/ace.min.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/ace-responsive.min.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/ace-skins.min.css' %}" />
+
+		<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="{% static 'css/ace-ie.min.css' %}" />
+		<![endif]-->
+
+		<link rel="icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}">
+
+		<!--inline styles if any-->
+		<link rel="stylesheet" type="text/css" href="{% static 'css/metro/easyui.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/icon.css' %}">
+		<script src="{% static 'js/jquery-1.9.1.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/jquery.easyui.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/easyui-lang-zh_CN.js' %}"></script>
+		{% block head %}
+		{% endblock %}
+	</head>
+
+	<body>
+		<div class="navbar navbar-inverse">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+					<a href="#" class="brand">
+						<small>
+							<i class="icon-leaf"></i>
+							顺达出租汽车管理系统
+						</small>
+					</a><!--/.brand-->
+
+					<ul class="nav ace-nav pull-right">
+
+						<li class="light-blue user-profile">
+							<a data-toggle="dropdown" href="#" class="user-menu dropdown-toggle">
+								<img class="nav-user-photo" src="{% static 'avatars/avatar.png' %}" alt="Jason's Photo" />
+								<span id="user_info">
+									<small>Welcome,</small>
+									{{ request.user.get_full_name }}
+								</span>
+
+								<i class="icon-caret-down"></i>
+							</a>
+
+							<ul class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer" id="user_menu">
+								<li>
+									<a href="/accounts/profile">
+										<i class="icon-cog"></i>
+										设置
+									</a>
+								</li>
+
+								<li class="divider"></li>
+
+								<li>
+									<a href="/accounts/logout">
+										<i class="icon-off"></i>
+										退出
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul><!--/.ace-nav-->
+				</div><!--/.container-fluid-->
+			</div><!--/.navbar-inner-->
+		</div>
+
+		<div class="container-fluid" id="main-container">
+			<div id="sidebar">
+				<ul class="nav nav-list">
+					{% if request.path == '/' or 'accounts' in request.path %}
+						<li class="active">
+					{% else %}
+						<li>
+					{% endif %}
+						<a href="/">
+							<i class="icon-dashboard"></i>
+							<span>Dashboard</span>
+						</a>
+					</li>
+
+					{% if 'car' in request.path %}
+						<li class="active open">
+					{% else %}
+						<li>
+					{% endif %}
+						<a href="#" class="dropdown-toggle">
+							<i class="icon-fighter-jet"></i>
+							<span>车辆管理</span>
+							<b class="arrow icon-angle-down"></b>
+						</a>
+
+						<ul class="submenu">
+							{% if 'car' in request.path and 'list' in request.path or 'single' in request.path %}
+								<li class="active">
+							{% else %}
+								<li>
+							{% endif %}
+								<a href="/car/list/">
+									<i class="icon-double-angle-right"></i>
+									<span>车辆信息</span>
+								</a>
+							</li>
+
+							<li>
+								<a href="buttons.html">
+									<i class="icon-double-angle-right"></i>
+									<span>经营合同</span>
+								</a>
+							</li>
+
+							<li>
+								<a href="treeview.html">
+									<i class="icon-double-angle-right"></i>
+									<span>车辆保险</span>
+								</a>
+							</li>
+							
+							<li>
+								<a href="treeview.html">
+									<i class="icon-double-angle-right"></i>
+									<span>车辆违章</span>
+								</a>
+							</li>
+
+							<li>
+								<a href="treeview.html">
+									<i class="icon-double-angle-right"></i>
+									<span>车辆二保</span>
+								</a>
+							</li>
+
+							<li>
+								<a href="treeview.html">
+									<i class="icon-double-angle-right"></i>
+									<span>车辆审验</span>
+								</a>
+							</li>
+
+
+							<li>
+								<a href="treeview.html">
+									<i class="icon-double-angle-right"></i>
+									<span>车辆事故</span>
+								</a>
+							</li>
+
+							<li>
+								<a href="treeview.html">
+									<i class="icon-double-angle-right"></i>
+									<span>计价器年审</span>
+								</a>
+							</li>
+
+							<li>
+								<a href="treeview.html">
+									<i class="icon-double-angle-right"></i>
+									<span>车辆整改</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+
+					{% if 'driver' in request.path %}
+						<li class="active open">
+					{% else %}
+						<li>
+					{% endif %}
+						<a href="#" class="dropdown-toggle">
+							<i class="icon-group"></i>
+							<span>驾驶员管理</span>
+							<b class="arrow icon-angle-down"></b>
+						</a>
+
+						<ul class="submenu">
+							{% if 'driver' in request.path and 'list' in request.path and 'all' in request.path or 'single' in request.path or 'edit' in request.path %}
+								<li class="active">
+							{% else %}
+								<li>
+							{% endif %}
+								<a href="/driver/list/all">
+									<i class="icon-double-angle-right"></i>
+									<span>驾驶员信息</span>
+								</a>
+							</li>
+							{% if 'driver' in request.path and 'bargin' in request.path and 'list' in request.path %}
+								<li class="active">
+							{% else %}
+								<li>
+							{% endif %}
+								<a href="/driver/bargin/list">
+									<i class="icon-double-angle-right"></i>
+									<span>驾驶员合同</span>
+								</a>
+							</li>
+
+							
+
+							<li>
+								<a href="wysiwyg.html">
+									<i class="icon-double-angle-right"></i>
+									<span>驾驶员社保</span>
+								</a>
+							</li>
+							{% if 'driver' in request.path and 'exam' in request.path and 'list' in request.path %}
+								<li class="active">
+							{% else %}
+								<li>
+							{% endif %}
+								<a href="/driver/exam/list">
+									<i class="icon-double-angle-right"></i>
+									<span>驾驶员考核</span>
+								</a>
+							</li>
+
+							{% if 'driver' in request.path and 'list' in request.path and 'daipin' in request.path %}
+								<li class="active">
+							{% else %}
+								<li>
+							{% endif %}
+								<a href="/driver/list/daipin">
+									<i class="icon-double-angle-right"></i>
+									<span>待聘驾驶员</span>
+								</a>
+							</li>
+
+							{% if 'driver' in request.path and 'list' in request.path and 'jiepin' in request.path %}
+								<li class="active">
+							{% else %}
+								<li>
+							{% endif %}
+								<a href="/driver/list/jiepin">
+									<i class="icon-double-angle-right"></i>
+									<span>解聘驾驶员</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+
+					{% if 'office' in request.path %}
+						<li class="active open">
+					{% else %}
+						<li>
+					{% endif %}
+						<a href="#" class="dropdown-toggle">
+							<i class="icon-bullhorn"></i>
+							<span>办公管理</span>
+							<b class="arrow icon-angle-down"></b>
+						</a>
+
+						<ul class="submenu">
+							<li>
+								<a href="form-elements.html">
+									<i class="icon-double-angle-right"></i>
+									<span>公司公告</span>
+								</a>
+							</li>
+
+							<li>
+								<a href="/admin/auth/user/" target="_blank">
+									<i class="icon-double-angle-right"></i>
+									<span>用户管理</span>
+								</a>
+							</li>
+
+							{% if 'notification' in request.path %}
+								<li class="active">
+							{% else %}
+								<li>
+							{% endif %}
+								<a href="/office/notification">
+									<i class="icon-double-angle-right"></i>
+									<span>时间提醒设置</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+
+				</ul><!--/.nav-list-->
+				
+				<div id="sidebar-collapse">
+					<i class="icon-double-angle-left"></i>
+				</div>
+
+			</div>
+
+			<div id="main-content" class="clearfix">
+				<div id="page-content" class="clearfix">
+					{% block pageheader %}
+					{% endblock %}
+					<!--/.page-header-->
+
+					<div class="row-fluid">
+						<!--PAGE CONTENT BEGINS HERE-->
+						{% if messages %}
+							{% for message in messages %}
+								<div class="alert alert-block alert-{{ message.tags }}">
+
+								<button type="button" class="close" data-dismiss="alert">
+								<i class="icon-remove"></i>
+								</button>
+
+								<i class="icon-ok green"></i>
+									{{ message }}
+								</div>
+							{% endfor %}
+						{% endif %}
+
+						{% block main %}
+						{% endblock %}
+
+						<div class="space-6"></div>
+
+						
+						<div class="vspace"></div>
+
+						
+						<div class="hr hr32 hr-dotted"></div>
+
+						
+
+						<!--PAGE CONTENT ENDS HERE-->
+					</div><!--/row-->
+				</div><!--/#page-content-->
+
+			</div><!--/#main-content-->
+		</div><!--/.fluid-container#main-container-->
+
+		<div data-widget='backtop'><script src="{% static 'js/backtop.js' %}" charset="utf-8"></script></div>
+
+		<!--basic scripts-->
+
+		
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+		<!--page specific plugin scripts-->
+
+		<!--[if lte IE 8]>
+		  <script src="{% static 'js/excanvas.min.js' %}"></script>
+		<![endif]-->
+
+		<script src="{% static 'js/jquery-ui-1.10.3.custom.min.js' %}"></script>
+		<script src="{% static 'js/jquery.ui.touch-punch.min.js' %}"></script>
+		<script src="{% static 'js/jquery.slimscroll.min.js' %}"></script>
+		<script src="{% static 'js/jquery.easy-pie-chart.min.js' %}"></script>
+		<script src="{% static 'js/jquery.sparkline.min.js' %}"></script>
+		<script src="{% static 'js/flot/jquery.flot.min.js' %}"></script>
+		<script src="{% static 'js/flot/jquery.flot.pie.min.js' %}"></script>
+		<script src="{% static 'js/flot/jquery.flot.resize.min.js' %}"></script>
+		<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+		<script src="{% static 'js/jquery.dataTables.bootstrap.js' %}"></script>
+
+
+		<!--ace scripts-->
+
+		<script src="{% static 'js/ace-elements.min.js' %}"></script>
+		<script src="{% static 'js/ace.min.js' %}"></script>
+
+	</body>
+</html>

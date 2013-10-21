@@ -1,0 +1,249 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+<script>  
+
+function nameFormatter(value, row){
+	return "<a href=/driver/single/" + row.id + " >" + row.jiasyxm + "</a>";
+	}
+
+var gendertypes = [  
+	{xingb: '男', name: '男'},
+	{xingb: '女', name: '女'}
+];  
+
+function genderFormatter(value){  
+	for(var i=0; i<gendertypes.length; i++){  
+		if (gendertypes[i].xingb == value){
+			return gendertypes[i].name; 
+		}  
+	}  
+	return value;  
+} 
+
+var statetypes = [
+	{jiasyzt: '在岗', name: '在岗'},
+	{jiasyzt: '待聘', name: '待聘'},
+	{jiasyzt: '解聘', name: '解聘'},
+	{jiasyzt: '寄存', name: '寄存'},
+	{jiasyzt: '转大众', name: '转大众'},
+	{jiasyzt: '转泽圆', name: '转泽圆'},
+	{jiasyzt: '转泽兴', name: '转泽兴'},
+	{jiasyzt: '转兴安', name: '转兴安'},
+	{jiasyzt: '转阳光', name: '转阳光'},
+	{jiasyzt: '转现代', name: '转现代'},
+	{jiasyzt: '其它', name: '其它'}
+];  
+
+function stateFormatter(value){  
+	for(var i=0; i<statetypes.length; i++){  
+		if (statetypes[i].jiasyzt == value){
+			return statetypes[i].name; 
+		}  
+	}  
+	return value;  
+} 
+
+
+
+        $(function(){  
+            var lastIndex;  
+            $('#tt').datagrid({  
+              url: '/getdrivers?types={{types}}',
+                toolbar:[{  
+                    text:'新建',  
+                    iconCls:'icon-add',  
+                    handler:function(){  
+                        $('#tt').datagrid('endEdit', lastIndex);  
+                        $('#tt').datagrid('insertRow',{  
+                            index: 0,
+                            row: {
+                            jiasyxm: '',
+                            xingb: '',
+                            jiasydh: '',
+                            shenfzh: '',
+                            jiaszh: '',
+                            jiaszyxq: '',
+                            zhunj: '',
+                            fuwzgzh: '',
+                            hujszd: '',
+                            jiaszssd: '',
+                            cundbh: '',
+                            jiasyzt: ''
+                        }
+                        });  
+                        lastIndex = 0;  
+                        $('#tt').datagrid('selectRow', lastIndex);  
+                        $('#tt').datagrid('beginEdit', lastIndex);  
+                    }  
+                },'-',{  
+                    text:'删除',  
+                    iconCls:'icon-removes',  
+                    handler:function(){  
+                        var row = $('#tt').datagrid('getSelected');
+                        if ('{{ request.user.is_staff }}' == 'True'){
+                        $.messager.confirm('确认','是否真的删除?', function(r){  
+                            if (r){  
+                                var index = $('#tt').datagrid('getRowIndex', row);  
+                                $('#tt').datagrid('deleteRow', index);
+                                $.get('/deletedriver/'+row.id);  
+                                $('#tt').datagrid('reload');
+                            }  
+                        });
+                    }
+                    else {
+                    	$.messager.alert('警告', '你无权限执行操作!', 'info');
+                    }
+                    }  
+                },'-',{  
+                    text:'保存',  
+                    iconCls:'icon-saves',  
+                    handler:function(){  
+  
+                        var row = $('#tt').datagrid('getSelected');
+                        if ('{{ request.user.is_staff }}' == 'True'){
+                        $.messager.confirm('确认','是否修改?', function(r){
+                            if (r){
+                                $('#tt').datagrid('acceptChanges');
+                                $.get('/driver/update?items='+JSON.stringify(row));  
+                                $('#tt').datagrid('reload');
+                            }
+                            else{
+                                $('#tt').datagrid('rejectChanges');
+                            }
+                        });
+                        $('#tt').datagrid('clearSelections');
+                    }
+                    else {
+                    	$.messager.alert('警告', '你无权限执行操作!', 'info');
+                    }
+                    }  
+                    
+                }],  
+                onLoadSuccess:function(){
+                    $('#tt').datagrid('clearSelections');
+                },
+                onBeforeLoad:function(){  
+                    $(this).datagrid('rejectChanges');  
+                },  
+                onClickRow:function(rowIndex){  
+                    if (lastIndex != rowIndex){  
+                        $('#tt').datagrid('endEdit', lastIndex);  
+                        $('#tt').datagrid('beginEdit', rowIndex);  
+                    }  
+                    lastIndex = rowIndex;  
+                }  
+            });  
+        });  
+
+
+    </script>
+
+
+
+{% endblock %}
+
+{% block pageheader %}
+<div class="page-header position-relative">
+	<h1>
+	驾驶员管理
+	<small>
+	<i class="icon-double-angle-right"></i>
+	{% if 'daipin' in request.path %}
+        待聘驾驶员
+    {% elif 'jiepin' in request.path %}
+        解聘驾驶员
+    {% else %}
+        驾驶员信息
+    {% endif %}
+	</small>
+	</h1>
+</div>
+{% endblock %}
+
+{% block main %}
+
+<section>
+<table id="tt" style="width:auto;height:auto"  
+            data-options="iconCls:'icon-edit',singleSelect:true,idField:'id',rownumbers:true,
+                pagination:true, method:'get',
+                pageSize:10" >
+        <thead>
+            <tr>
+                <th data-options="field:'jiasyxm',width:70,align:'center',formatter:nameFormatter,editor:'text'">驾驶员姓名</th>
+                <th data-options="field:'xingb',width:35,align:'center',formatter:genderFormatter,  
+                        editor:{  
+                            type:'combobox',  
+                            options:{  
+                                valueField:'xingb',  
+                                textField:'name',  
+                                data:gendertypes,  
+                                required:true  
+                            }  
+                        }">性别</th>
+                <th data-options="field:'jiasydh',width:100,align:'center',editor:'text'">驾驶员电话</th>
+                <th data-options="field:'shenfzh',width:150,align:'center',editor:'text'">身份证号</th>
+                <th data-options="field:'jiaszh',width:100,align:'center',editor:'text'">驾驶证号</th>
+                <th data-options="field:'jiaszyxq',width:80,align:'center',editor:'datebox'">驾驶证有效期</th>
+                <th data-options="field:'zhunj',width:30,align:'center',editor:'text'">准驾</th>
+                <th data-options="field:'fuwzgzh',width:100,align:'center',editor:'text'">服务资格证号</th>
+                <th data-options="field:'hujszd',width:90,align:'center',editor:'text'">户籍所在地</th>
+                <th data-options="field:'jiaszssd',width:90,align:'center',editor:'text'">驾驶证所属地</th>
+                <th data-options="field:'cundbh',width:80,align:'center',editor:'text'">存档编号</th>    
+                <th data-options="field:'jiasyzt',width:80,align:'center',formatter:stateFormatter,  
+                        editor:{  
+                            type:'combobox',  
+                            options:{  
+                                valueField:'jiasyzt',  
+                                textField:'name',  
+                                data:statetypes,  
+                                required:true  
+                            }  
+                        }">驾驶员状态</th>
+                
+            </tr>
+        </thead>
+    </table>
+
+    <script>
+
+        function pagerFilter(data){
+            if (typeof data.length == 'number' && typeof data.splice == 'function'){    // is array
+                data = {
+                    total: data.length,
+                    rows: data
+                }
+            }
+            var dg = $(this);
+            var opts = dg.datagrid('options');
+            var pager = dg.datagrid('getPager');
+            pager.pagination({
+                onSelectPage:function(pageNum, pageSize){
+                    opts.pageNumber = pageNum;
+                    opts.pageSize = pageSize;
+                    pager.pagination('refresh',{
+                        pageNumber:pageNum,
+                        pageSize:pageSize
+                    });
+                    dg.datagrid('loadData',data);
+                }
+            });
+            if (!data.originalRows){
+                data.originalRows = (data.rows);
+            }
+            var start = (opts.pageNumber-1)*parseInt(opts.pageSize);
+            var end = start + parseInt(opts.pageSize);
+            data.rows = (data.originalRows.slice(start, end));
+            return data;
+        }
+        
+        $(function(){
+            $('#tt').datagrid({loadFilter:pagerFilter});
+        });
+    </script>
+
+</section>
+
+
+{% endblock %}
